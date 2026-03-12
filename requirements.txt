@@ -1,0 +1,4 @@
+sentence-transformers>=2.6.0
+faiss-cpu==1.7.4
+llama-cpp-python==0.2.56
+numpy<2
