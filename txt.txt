@@ -1,0 +1,24 @@
+RAG_Sanskrit_Nikky/
+
+│
+├── code/
+│   │
+│   ├── main.py
+│   ├── load_documents.py
+│   ├── preprocess.py
+│   ├── build_index.py
+│   ├── query_rag.py
+│   └── config.py
+│
+├── data/
+│   └── sanskrit_docs.txt
+│
+├── vectorstore/
+│   └── faiss_index
+│
+├── report/
+│   └── RAG_Report.pdf
+│
+├── requirements.txt
+│
+└── README.md
