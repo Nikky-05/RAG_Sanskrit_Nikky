@@ -1,5 +1,8 @@
 import os
 
+# force CPU-only: disable all GPU/CUDA access
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # data folder path
@@ -19,7 +22,7 @@ LLM_MODEL_PATH = os.path.join(MODELS_DIR, ".cache", "huggingface", "tinyllama-1.
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
 # chunking settings
-CHUNK_SIZE = 400
+CHUNK_SIZE = 300
 CHUNK_OVERLAP = 50
 
 # retrieval settings
@@ -27,5 +30,5 @@ TOP_K = 3
 
 # llm settings
 MAX_TOKENS = 512
-TEMPERATURE = 0.7
+TEMPERATURE = 0.3
 CONTEXT_LENGTH = 2048

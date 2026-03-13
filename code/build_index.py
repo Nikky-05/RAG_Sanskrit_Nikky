@@ -15,10 +15,10 @@ from preprocess import preprocess_documents
 
 
 def create_embeddings(chunks, model):
-    """generate embeddings for all chunks using sentence-transformers"""
+    """generate embeddings for all chunks using sentence-transformers on CPU"""
     texts = [c["text"] for c in chunks]
     print(f"generating embeddings for {len(texts)} chunks...")
-    embeddings = model.encode(texts, show_progress_bar=True, batch_size=16)
+    embeddings = model.encode(texts, show_progress_bar=True, batch_size=16, device="cpu")
     embeddings = np.array(embeddings, dtype="float32")
     return embeddings
 
@@ -75,9 +75,9 @@ def build_pipeline():
     print("\n[step 2] preprocessing and chunking...")
     chunks = preprocess_documents(docs)
 
-    # step 3: load embedding model
-    print("\n[step 3] loading embedding model...")
-    model = SentenceTransformer(EMBEDDING_MODEL)
+    # step 3: load embedding model (forced CPU)
+    print("\n[step 3] loading embedding model (CPU)...")
+    model = SentenceTransformer(EMBEDDING_MODEL, device="cpu")
 
     # step 4: create embeddings
     print("\n[step 4] creating embeddings...")

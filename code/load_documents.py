@@ -1,4 +1,5 @@
 import os
+import pdfplumber
 from config import SANSKRIT_FILE, DATA_DIR
 
 
@@ -9,8 +10,19 @@ def load_text_file(filepath):
     return text
 
 
+def load_pdf_file(filepath):
+    """read a single pdf file and return its text content"""
+    text = ""
+    with pdfplumber.open(filepath) as pdf:
+        for page in pdf.pages:
+            page_text = page.extract_text()
+            if page_text:
+                text += page_text + "\n"
+    return text
+
+
 def load_all_documents():
-    """load all txt files from data folder"""
+    """load all txt and pdf files from data folder"""
     documents = []
 
     # check if main sanskrit file exists
@@ -21,13 +33,20 @@ def load_all_documents():
     else:
         print(f"file not found: {SANSKRIT_FILE}")
 
-    # also pick up any other txt files in data folder
+    # also pick up any other txt/pdf files in data folder
     for fname in os.listdir(DATA_DIR):
         fpath = os.path.join(DATA_DIR, fname)
         if fname.endswith(".txt") and fpath != SANSKRIT_FILE:
             content = load_text_file(fpath)
             documents.append({"source": fpath, "text": content})
             print(f"loaded: {fpath}")
+        elif fname.endswith(".pdf"):
+            content = load_pdf_file(fpath)
+            if content.strip():
+                documents.append({"source": fpath, "text": content})
+                print(f"loaded: {fpath}")
+            else:
+                print(f"skipped (empty): {fpath}")
 
     print(f"total documents loaded: {len(documents)}")
     return documents
